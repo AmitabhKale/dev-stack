@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { toast } from "react-toastify";
+import { useSelector,useDispatch } from "react-redux";
+import { login } from "../features/auth/authSlice";
 
 const LoginScreen = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +12,10 @@ const LoginScreen = () => {
   });
 
   const {email, password } = formData;
+
+  const dispatch = useDispatch();
+
+  const {user, isLoading, isSuccess, message } = useSelector(state => state.auth)
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -24,11 +30,18 @@ const LoginScreen = () => {
     if (!password) {
         toast.error("Enter Password")
     }
+    const userData = {
+      email,
+      password
+    }
+
+    dispatch(login(userData))
+
   };
 
   return (
     <FormContainer>
-      <h2 className="text-secondary">Register User</h2>
+      <h2 className="text-secondary">Login</h2>
 
       <Form onSubmit={submitHandler} className="mb-2">
 
