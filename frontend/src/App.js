@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import {ToastContainer} from 'react-toastify';
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen"
+import HomeScreen from "./screens/HomeScreen";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Header />
       <Container >
           <Routes>
+            <Route path="/" element={<HomeScreen />} />
             <Route path='/register' element={<RegisterScreen />} />
             <Route path='/login' element={<LoginScreen />} />
           </Routes>

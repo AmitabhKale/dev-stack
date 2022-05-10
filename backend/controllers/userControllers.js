@@ -28,9 +28,10 @@ const registerUser = asyncHandler( async (req,res) => {
 
     if(user){
         res.status(200).json({
+            id: user._id,
             name: user.name,
             email: user.email,
-            token: "*****Fake Token Generated*****"
+            token: null
         })
     }
  
@@ -51,7 +52,7 @@ const loginUser = asyncHandler(async (req,res) => {
             id: user._id,
             name: user.name,
             email: user.email,
-            token: "*****Fake Token Generated*****"
+            token: null
         })
     }else{
         res.status(400)
