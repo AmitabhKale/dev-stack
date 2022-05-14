@@ -22,7 +22,9 @@ const Header = () => {
     <Container>
     <Navbar.Brand>Dev Stack</Navbar.Brand>
     <Nav className="mr-auto">
+      <LinkContainer to={'/new-ticket'}>
       <Nav.Link>Create</Nav.Link>
+      </LinkContainer>
       {user ? (
         <NavDropdown title={user.name} id='username'>
           <LinkContainer to='/profile'>
