@@ -1,23 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-// import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createTicket, reset } from "../features/tickets/ticketSlice";
+import Spinner from "../components/Spinner";
+import { toast } from "react-toastify";
 
 const NewTicketScreen = () => {
   // const {user} = useSelector((state) => state.auth)
 
+  const { isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.tickets
+  );
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess) {
+      dispatch(reset());
+      navigate("/tickets");
+    }
+
+    dispatch(reset());
+  }, [dispatch, isError, isSuccess, navigate, message]);
+
   const submitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    dispatch(createTicket({title, description}))
+  };
+
+  if (isLoading) {
+    return <Spinner />;
   }
+
   return (
     <>
       <h2>Create New Ticket</h2>
       <Card style={{ backgroundColor: "light" }}>
         {/* <FormLabel className="text-right position-absolute top-2 end-0">Amit</FormLabel> */}
 
-        <Form onSumit={submitHandler} className="px-5 m-2">
+        <Form className="px-5 m-2" onSubmit={submitHandler}>
           <Form.Group className="mb-3">
             <Form.Label>Title</Form.Label>
             <Form.Control
@@ -72,7 +101,7 @@ const NewTicketScreen = () => {
             </Col>
           </Row>
 
-          <Button variant="outline-success">Create</Button>
+          <Button variant="outline-success" type="submit">Create</Button>
         </Form>
       </Card>
     </>
